@@ -53,6 +53,9 @@ function role_drush_command() {
     'options' => array(
       'module' => 'Select the permission to modify from an interactive list of all permissions available in the specified module.',
     ),
+    'global-options' => array(
+      'cache-clear',
+    ),
     'aliases' => array('rap'),
   );
 
@@ -69,6 +72,9 @@ function role_drush_command() {
     'required-arguments' => 1,
     'options' => array(
       'module' => 'Select the permission to modify from an interactive list of all permissions available in the specified module.',
+    ),
+    'global-options' => array(
+      'cache-clear',
     ),
     'aliases' => array('rmp'),
   );

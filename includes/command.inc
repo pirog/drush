@@ -1104,6 +1104,9 @@ function _drush_command_translate($source) {
  * - arguments: an array of arguments that are understood by the command. for help texts.
  * - required-arguments: The minimum number of arguments that are required, or TRUE if all are required.
  * - options: an array of options that are understood by the command. for help texts.
+ * - global-options: a list of options from the set of Drush global options (@see:
+ *   drush_get_global_options()) that relate to this command.  The help for these
+ *   options will be included in the help output for this command.
  * - examples: an array of examples that are understood by the command. for help texts.
  * - scope: one of 'system', 'project', 'site'.
  * - bootstrap: drupal bootstrap level (depends on Drupal major version). -1=no_bootstrap.
