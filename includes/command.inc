@@ -1033,6 +1033,7 @@ function drush_command_defaults($key, $commandfile, $path) {
     'options' => array(),
     'sub-options' => array(),
     'allow-additional-options' => FALSE,
+    'global-options' => array(),
     'examples' => array(),
     'aliases' => array(),
     'core' => array(),
