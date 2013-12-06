@@ -71,6 +71,10 @@ function cache_cache_command_clear_complete() {
  * Command callback for drush cache-clear.
  */
 function drush_cache_command_clear($type = NULL) {
+  if (drush_get_option('skip-cache-clear', FALSE)) {
+    drush_log(dt("Skipping cache-clear operation due to --skip-cache-clear option."), 'warning');
+    return TRUE;
+  }
   $types = drush_cache_clear_types(drush_has_boostrapped(DRUSH_BOOTSTRAP_DRUPAL_FULL));
 
   // Check if the provided type ($type) is a valid cache type.

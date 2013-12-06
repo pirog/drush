@@ -234,6 +234,8 @@ function drush_flatten_array($a) {
  *   elements for each item are:
  *
  *     - short-form: The shortcut form for specifying the key on the commandline.
+ *     - propagate: backend invoke will use drush_get_option to propagate this
+ *       option, when set, to any other Drush command that is called.
  *     - context: The drush context where the value of this item is cached.  Used
  *       by backend invoke to propagate values set in code.
  *     - never-post: If TRUE, backend invoke will never POST this item's value
@@ -302,7 +304,7 @@ function drush_get_global_options($brief = FALSE) {
     $options['remote-os']           = array('hidden' => TRUE, 'description' => 'The operating system used on the remote host. Managed by site alias.');
     $options['site-list']           = array('hidden' => TRUE, 'description' => 'List of sites to run commands on. Managed by site alias.');
     $options['reserve-margin']      = array('hidden' => TRUE, 'description' => 'Remove columns from formatted opions. Managed by multi-site command handling.');
-    $options['strict']              = array('hidden' => TRUE, 'description' => 'Check requirements more strictly / remove backwards-compatibility features for unit tests.');
+    $options['strict']              = array('propagate' => TRUE, 'hidden' => TRUE, 'description' => 'Check requirements more strictly / remove backwards-compatibility features for unit tests.');
     $options['command-specific']    = array('hidden' => TRUE, 'merge-associative' => TRUE, 'description' => 'Command-specific options.');
     $options['site-aliases']        = array('hidden' => TRUE, 'merge-associative' => TRUE, 'description' => 'List of site aliases.');
     $options['shell-aliases']       = array('hidden' => TRUE, 'merge' => TRUE, 'never-propagate' => TRUE, 'description' => 'List of shell aliases.');
@@ -310,7 +312,7 @@ function drush_get_global_options($brief = FALSE) {
     $options['ssh-options']         = array('never-propagate' => TRUE, 'description' => 'A string of extra options that will be passed to the ssh command', 'example-value' => '-p 100');
     $options['editor']              = array('never-propagate' => TRUE, 'description' => 'A string of bash which launches user\'s preferred text editor. Defaults to ${VISUAL-${EDITOR-vi}}.', 'example-value' => 'vi');
     $options['db-url']              = array('hidden' => TRUE, 'description' => 'A Drupal 6 style database URL. Used by various commands.', 'example-value' => 'mysql://root:pass@127.0.0.1/db');
-
+    $options['skip-cache-clear']    = array('propagate' => TRUE, 'description' => 'Skip all cache-clear options. Caller is responsible for guarenteeing that the cache does not need to be invalidated, or to call cache-clear later.', );
     $command = array(
       'options' => $options,
       '#brief' => FALSE,
