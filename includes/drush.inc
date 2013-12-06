@@ -312,7 +312,7 @@ function drush_get_global_options($brief = FALSE) {
     $options['ssh-options']         = array('never-propagate' => TRUE, 'description' => 'A string of extra options that will be passed to the ssh command', 'example-value' => '-p 100');
     $options['editor']              = array('never-propagate' => TRUE, 'description' => 'A string of bash which launches user\'s preferred text editor. Defaults to ${VISUAL-${EDITOR-vi}}.', 'example-value' => 'vi');
     $options['db-url']              = array('hidden' => TRUE, 'description' => 'A Drupal 6 style database URL. Used by various commands.', 'example-value' => 'mysql://root:pass@127.0.0.1/db');
-    $options['skip-cache-clear']    = array('propagate' => TRUE, 'description' => 'Skip all cache-clear options. Caller is responsible for guarenteeing that the cache does not need to be invalidated, or to call cache-clear later.', );
+    $options['cache-clear']    = array('propagate' => TRUE, 'description' => 'Allow cache-clear operations / skip all cache-clear options. Caller is responsible for guarenteeing that the cache does not need to be invalidated, or to call cache-clear later.', 'example-value' => '0', );
     $command = array(
       'options' => $options,
       '#brief' => FALSE,

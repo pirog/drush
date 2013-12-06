@@ -71,7 +71,7 @@ function cache_cache_command_clear_complete() {
  * Command callback for drush cache-clear.
  */
 function drush_cache_command_clear($type = NULL) {
-  if (drush_get_option('skip-cache-clear', FALSE)) {
+  if (!drush_get_option('cache-clear', TRUE)) {
     drush_log(dt("Skipping cache-clear operation due to --skip-cache-clear option."), 'warning');
     return TRUE;
   }
