@@ -580,11 +580,29 @@ function _drush_bootstrap_select_drupal_site() {
   $uri = _drush_bootstrap_selected_uri();
   drush_set_context('DRUSH_SELECTED_URI', $uri);
   drush_set_context('DRUSH_SELECTED_DRUPAL_SITE_CONF_PATH', drush_conf_path($uri));
+}
 
-  if (!empty($drupal_root) && !empty($uri)) {
-    // Create an alias '@self'
-    _drush_sitealias_cache_alias('@self', array('root' => $drupal_root, 'uri' => $uri));
+/**
+ * Bootstrap the Drupal site to the level specified by the command.
+ * Do any last-minute operations needed by Drush before the command
+ * is dispatched.
+ */
+function drush_bootstrap_command($command) {
+  $bootstrap_result = drush_bootstrap_to_phase($command['bootstrap']);
+
+  // Check to see if a '@self' record was created during bootstrap.
+  // If not, make one now.
+  $self_record = drush_sitealias_get_record('@self');  $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
+  if (!array_key_exists('root', $self_record) && !array_key_exists('remote-host', $self_record)) {
+    $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
+    $uri = drush_get_context('DRUSH_SELECTED_URI');
+    if (!empty($drupal_root) && !empty($uri)) {
+      // Create an alias '@self'
+      _drush_sitealias_cache_alias('@self', array('root' => $drupal_root, 'uri' => $uri));
+    }
   }
+
+  return $bootstrap_result;
 }
 
 /**

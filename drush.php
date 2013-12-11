@@ -78,7 +78,7 @@ function _drush_bootstrap_and_dispatch() {
     if (drush_bootstrap_to_phase($phase)) {
       $command = drush_parse_command();
       if (is_array($command)) {
-        $bootstrap_result = drush_bootstrap_to_phase($command['bootstrap']);
+        $bootstrap_result = drush_bootstrap_command($command);
         drush_enforce_requirement_bootstrap_phase($command);
         drush_enforce_requirement_core($command);
         drush_enforce_requirement_drupal_dependencies($command);
