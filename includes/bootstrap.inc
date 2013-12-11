@@ -500,6 +500,10 @@ function _drush_bootstrap_drush() {
   // Check to see if we 'use'd a site alias with site-set
   drush_sitealias_check_site_env();
 
+  // If an alias was not created by drush_sitealias_check_arg()
+  // or drush_sitealias_check_site_env(), make one now.
+  drush_sitealias_create_self_alias();
+
   // Load the config options from Drupal's /drush and sites/all/drush directories,
   // even prior to bootstrapping the root.
   drush_load_config('drupal');
@@ -512,7 +516,9 @@ function _drush_bootstrap_drush() {
 
   // If drush_load_config defined a site alias that did not
   // exist before, then sitealias check arg might now match
-  // against one of those aliases.
+  // against one of those aliases.  This is also the place
+  // where we will find @self, if it was created via
+  // drush_sitealias_create_self_alias().
   if ((drush_sitealias_check_arg() === TRUE) || (drush_sitealias_check_site_env() === TRUE)) {
     $remote_host = drush_get_option('remote-host');
     if (!isset($remote_host)) {
@@ -589,18 +595,6 @@ function _drush_bootstrap_select_drupal_site() {
  */
 function drush_bootstrap_command($command) {
   $bootstrap_result = drush_bootstrap_to_phase($command['bootstrap']);
-
-  // Check to see if a '@self' record was created during bootstrap.
-  // If not, make one now.
-  $self_record = drush_sitealias_get_record('@self');  $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
-  if (!array_key_exists('root', $self_record) && !array_key_exists('remote-host', $self_record)) {
-    $drupal_root = drush_get_context('DRUSH_SELECTED_DRUPAL_ROOT');
-    $uri = drush_get_context('DRUSH_SELECTED_URI');
-    if (!empty($drupal_root) && !empty($uri)) {
-      // Create an alias '@self'
-      _drush_sitealias_cache_alias('@self', array('root' => $drupal_root, 'uri' => $uri));
-    }
-  }
 
   return $bootstrap_result;
 }
