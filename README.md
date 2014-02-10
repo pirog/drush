@@ -79,11 +79,11 @@ INSTALL - COMPOSER
         composer global require drush/drush:6.*
 
 * Alternate commands to install some other variant of Drush:
-
+        ```bash
         composer global require drush/drush:6.1.0
         # Master branch as a git clone. Great for contributing back to Drush project.
         composer global require drush/drush:dev-master --prefer-source
-
+        ```
 [Fuller explanation of the require command.](http://getcomposer.org/doc/03-cli.md#require)
 
 INSTALL - PEAR
