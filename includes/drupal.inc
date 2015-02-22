@@ -44,19 +44,19 @@ function drush_drupal_version($drupal_root = NULL) {
           $version = Drupal::VERSION;
         }
       }
-      else {
-        // D7 stores VERSION in bootstrap.inc.
-        // D6 and below does it in system.module.
-        $version_constant_paths = array('/includes/bootstrap.inc', '/modules/system/system.module');
-        foreach ($version_constant_paths as $path) {
-          if (file_exists($drupal_root . $path)) {
-            require_once $drupal_root . $path;
-            if (defined('VERSION')) {
-              $version = VERSION;
-              break;
-            }
-          }
-        }
+      // Try and find D7
+      // D7 stores VERSION in bootstrap.inc.
+      else if (file_exists($drupal_root . '/includes/bootstrap.inc')) {
+        require_once $drupal_root . '/includes/bootstrap.inc';
+      }
+      // Try and find D6
+      // D6 and below does it in system.module.
+      else if (file_exists($drupal_root . '/modules/system/system.module')) {
+        require_once $drupal_root . '/modules/system/system.module';
+      }
+      // Let other Drupal-like CMS's provide this info elsewhere
+      if (defined('VERSION')) {
+        $version = VERSION;
       }
     }
   }
@@ -253,4 +253,3 @@ function _drush_drupal_parse_info_file($data, $merge_item = NULL) {
 function drush_cid_install_profile() {
   return drush_get_cid('install_profile', array(), array(drush_get_context('DRUSH_SELECTED_DRUPAL_SITE_CONF_PATH')));
 }
-
