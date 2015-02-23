@@ -794,9 +794,23 @@ function drush_extension_get_path($info) {
  * @return FALSE if the extension is compatible.
  */
 function drush_extension_check_incompatibility($file) {
-  if (!isset($file->info['core']) || $file->info['core'] != drush_get_drupal_core_compatibility()) {
-    return 'Drupal';
+  // @todo: hacky hack until we figure out how to resolve this
+  // If would be great to have an abstract set of "app helpers" to define in a Boot class
+  // that drush used for version checking, app definition and other things instead of
+  // relying on drupal specific ones.
+  // @Kazanir has done some work here.
+  // }
+  if (defined('BACKDROP_CORE_COMPATIBILITY')) {
+    if (!isset($file->info['backdrop']) || $file->info['backdrop'] != drush_get_backdrop_core_compatibility()) {
+      return 'Backdrop';
+    }
   }
+  else {
+    if (!isset($file->info['core']) || $file->info['core'] != drush_get_drupal_core_compatibility()) {
+      return 'Drupal';
+    }
+  }
+
   if (version_compare(phpversion(), $file->info['php']) < 0) {
     return 'PHP';
   }

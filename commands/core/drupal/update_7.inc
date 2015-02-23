@@ -154,10 +154,10 @@ function update_main_prepare() {
   require_once $core . '/includes/bootstrap.inc';
   require_once $core . '/includes/common.inc';
   require_once $core . '/includes/file.inc';
-  require_once $core . '/includes/entity.inc';
+  require_once $core . '/modules/entity/entity.class.inc';
   include_once $core . '/includes/unicode.inc';
 
-  update_prepare_d7_bootstrap();
+  update_prepare_bootstrap();
   drupal_bootstrap(DRUPAL_BOOTSTRAP_SESSION);
 
   require_once $core . '/includes/install.inc';
@@ -186,7 +186,7 @@ function update_main_prepare() {
   // So bootstrap to DRUPAL_BOOTSTRAP_LANGUAGE then include unicode.inc.
   drupal_bootstrap(DRUPAL_BOOTSTRAP_LANGUAGE);
 
-  update_fix_d7_requirements();
+  update_fix_requirements();
 
   // Clear the module_implements() cache before the full bootstrap. The calls
   // above to drupal_maintenance_theme() and update_check_requirements() have
@@ -204,13 +204,13 @@ function update_main_prepare() {
 
   drush_errors_on();
 
-  include_once DRUPAL_ROOT . '/includes/batch.inc';
+  include_once DRUSH_DRUPAL_CORE . '/includes/batch.inc';
   drupal_load_updates();
 
   update_fix_compatibility();
 
    // Change query-strings on css/js files to enforce reload for all users.
-  _drupal_flush_css_js();
+  _backdrop_flush_css_js();
   // Flush the cache of all data for the update status module.
   if (db_table_exists('cache_update')) {
     cache_clear_all('*', 'cache_update', TRUE);
